@@ -59,7 +59,10 @@ func (seq *Sequence) Index() int {
 
 // SetIndex sets the current index of the Sequence, influencing which Tween is active at any given time.
 func (seq *Sequence) SetIndex(index int) {
-	seq.Tweens[seq.index].Reset()
+	// Because it's possible to call SetIndex() when the Sequence is at the end.
+	if seq.index < len(seq.Tweens)-1 {
+		seq.Tweens[seq.index].Reset()
+	}
 	seq.index = index
 }
 
